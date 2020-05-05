@@ -37,8 +37,8 @@ namespace Virtuality.API.Controllers
 
 
         [HttpGet("{id}")]
-        public IActionResult GetValue(int id){
-            var value = _dataContext.Values.FirstOrDefault(x => x.Id == id);
+        public async Task<IActionResult> GetValue(int id){
+            var value =await _dataContext.Values.FirstOrDefaultAsync(x => x.Id == id);
             return Ok(value);
         }
       

@@ -27,10 +27,18 @@ namespace Virtuality.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //# Adding DataBase as SQLite and configuring its connection
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddControllers();
             //# Adding  CORS - Cross Origin Resource sharing
             services.AddCors();
+
+            // Marking Services so that they can be injected anywhere per need
+            //singleton - for single instance only
+            //singleTransient - for every call new object gets created and these are light weight objects
+            //AddScoped - for one HTTP request there is only one instance gets created
+            services.AddScoped<IAuthRepository , AuthRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
