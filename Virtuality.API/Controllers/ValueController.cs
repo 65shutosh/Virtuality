@@ -11,26 +11,14 @@ namespace Virtuality.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class ValueController : ControllerBase
     {
         private readonly DataContext _dataContext;
-        public WeatherForecastController(DataContext dataContext)
+        public ValueController(DataContext dataContext)
         {
             _dataContext = dataContext;
 
         }
-
-        // private static readonly string[] Summaries = new[]
-        // {
-        //     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        // };
-
-        // private readonly ILogger<WeatherForecastController> _logger;
-
-        // public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        // {
-        //     _logger = logger;
-        // }
 
 
 //Synchronization is the way to design the thread-safe code where you can totally avoid the resource contention,
@@ -53,19 +41,7 @@ namespace Virtuality.API.Controllers
             var value = _dataContext.Values.FirstOrDefault(x => x.Id == id);
             return Ok(value);
         }
-        // public IEnumerable<WeatherForecast> Get()
-        // {
-        //     // to check how useDeveloperException works
-        //    // throw new Exception("Exception Test :");
-        //     var rng = new Random();
-        //     return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        //     {
-        //         Date = DateTime.Now.AddDays(index),
-        //         TemperatureC = rng.Next(-20, 55),
-        //         Summary = Summaries[rng.Next(Summaries.Length)]
-        //     })
-        //     .ToArray();
-        // }
+      
 
         [HttpGet("Ashutosh/{id}")]
         public string Get(int id)
@@ -75,10 +51,10 @@ namespace Virtuality.API.Controllers
 
         // Syntax to make sure they are not forgotten
 
-           [HttpPost("{id}")]
-           public IActionResult Post([FromBody] Object data){
-               return Ok(data);
-           }
+        //    [HttpPost("{id}")]
+        //    public IActionResult Post([FromBody] Object data){
+        //        return Ok(data);
+        //    }
 
 
 
