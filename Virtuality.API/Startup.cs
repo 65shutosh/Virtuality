@@ -1,9 +1,11 @@
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Virtuality.API.Data;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Virtuality.API
 {
@@ -39,6 +42,18 @@ namespace Virtuality.API
             //singleTransient - for every call new object gets created and these are light weight objects
             //AddScoped - for one HTTP request there is only one instance gets created
             services.AddScoped<IAuthRepository , AuthRepository>();
+
+            //Authentication middleware
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options => {
+                        options.TokenValidationParameters = new TokenValidationParameters{
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
+                              .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                              ValidateIssuer = false,
+                              ValidateAudience = false
+                        };
+                    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,7 +69,9 @@ namespace Virtuality.API
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+           
 
             app.UseEndpoints(endpoints =>
             {
