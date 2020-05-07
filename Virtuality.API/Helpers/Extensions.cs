@@ -13,7 +13,7 @@ namespace Virtuality.API.Helpers
             response.Headers.Add("Access-Control-Expose-Headers", "Application-Error");
             // Allowing any access to any origin 
             response.Headers.Add("Access-Control-Allow-origin", "*");
-        }
+        }													
 
     }
-}
+}  
