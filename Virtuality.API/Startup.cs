@@ -15,6 +15,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Virtuality.API.Data;
 using Microsoft.IdentityModel.Tokens;
+using System.Net;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
+using Virtuality.API.Helpers;
 
 namespace Virtuality.API
 {
@@ -41,17 +45,19 @@ namespace Virtuality.API
             //singleton - for single instance only
             //singleTransient - for every call new object gets created and these are light weight objects
             //AddScoped - for one HTTP request there is only one instance gets created
-            services.AddScoped<IAuthRepository , AuthRepository>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
 
             //Authentication middleware
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options => {
-                        options.TokenValidationParameters = new TokenValidationParameters{
+                    .AddJwtBearer(options =>
+                    {
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
                             ValidateIssuerSigningKey = true,
                             IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
                               .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
-                              ValidateIssuer = false,
-                              ValidateAudience = false
+                            ValidateIssuer = false,
+                            ValidateAudience = false
                         };
                     });
         }
@@ -63,15 +69,42 @@ namespace Virtuality.API
             {
                 app.UseDeveloperExceptionPage();
             }
+            // this else part is there to control what results should be returned when 
+            // the project is not in development mode and Exception occures
+            // all this just to make sure client does not get anything that's not for him and a proper error
+            else
+            {
+                app.UseExceptionHandler(
+                    builder =>
+                    {
+                        builder.Run(
+                            async context =>
+                            {
+                                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                                var error = context.Features.Get<IExceptionHandlerFeature>();
+
+                                if (error != null)
+                                {
+                                    context.Response.AddApplicationError(error.Error.Message);
+                                    await context.Response.WriteAsync(error.Error.Message);
+                                }
+                            }
+                         );
+                    }
+                );
+            }
             //# Allowing  CORS - if error might popup use it afterhttpRedirection -
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            //# Authentication is about letting in 
             app.UseAuthentication();
+
+            // Previously Provided - its all about allowed actions
             app.UseAuthorization();
-           
+
 
             app.UseEndpoints(endpoints =>
             {
