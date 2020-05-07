@@ -25,27 +25,28 @@ namespace Virtuality.API.Controllers
         }
 
 
-//Synchronization is the way to design the thread-safe code where you can totally avoid the resource contention,
-//make sure only one thread is accessing the resource at a time, and lead other threads waiting (blocked) for the 
-//resource till the accessing thread releases the resource. 
-//Synchronization neither means performing actions at the same time, nor one by one, 
-//it just means design the code where it doesn’t cause a resource contention.
+        //Synchronization is the way to design the thread-safe code where you can totally avoid the resource contention,
+        //make sure only one thread is accessing the resource at a time, and lead other threads waiting (blocked) for the 
+        //resource till the accessing thread releases the resource. 
+        //Synchronization neither means performing actions at the same time, nor one by one, 
+        //it just means design the code where it doesn’t cause a resource contention.
 
-//By default these codes are Synchronous
+        //By default these codes are Synchronous
         [HttpGet]
         public async Task<IActionResult> GetValues()
         {
-            var values =await  _dataContext.Values.ToListAsync();
+            var values = await _dataContext.Values.ToListAsync();
             return Ok(values);
         }
 
         [AllowAnonymous]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetValue(int id){
-            var value =await _dataContext.Values.FirstOrDefaultAsync(x => x.Id == id);
+        public async Task<IActionResult> GetValue(int id)
+        {
+            var value = await _dataContext.Values.FirstOrDefaultAsync(x => x.Id == id);
             return Ok(value);
         }
-      
+
 
         [HttpGet("Ashutosh/{id}")]
         public string Get(int id)

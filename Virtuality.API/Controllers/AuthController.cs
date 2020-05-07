@@ -50,10 +50,13 @@ namespace Virtuality.API.Controllers
             return StatusCode(201);
         }
 
-// Login and Token Generation
+        // Login and Token Generation
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
+
+            //throw new Exception("Computer does't want to preocess your query");
+
             var userFromRepo = await _authRepository.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
             if (userFromRepo == null)
                 return Unauthorized();
