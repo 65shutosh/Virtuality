@@ -41,7 +41,8 @@ namespace Virtuality.API.Controllers
 
             var userToCreate = new User
             {
-                Username = userForRegisterDto.Username
+                Username = userForRegisterDto.Username,
+                 email = userForRegisterDto.email
             };
 
             var createdUser = await _authRepository.Register(userToCreate, userForRegisterDto.Password);
