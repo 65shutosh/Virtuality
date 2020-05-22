@@ -18,6 +18,9 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { ErrorInterceptorProvider } from './_service/error.interceptor';
 import { AlertifyService } from './_service/alertify.service';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { SettingComponent } from './setting/setting.component';
+import { WishlistComponent } from './wishlist/wishlist.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
    declarations: [
@@ -29,7 +32,9 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
       TeacherComponent,
       TeacherDatailComponent,
       TeacherNewTopicComponent,
-      NotFoundComponent
+      NotFoundComponent,
+      SettingComponent,
+      WishlistComponent
    ],
    imports: [
       BrowserModule,
@@ -37,6 +42,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
       FormsModule,
       HttpClientModule,
       RouterModule,
+      BrowserAnimationsModule,
       BsDropdownModule.forRoot()
    ],
    providers: [
