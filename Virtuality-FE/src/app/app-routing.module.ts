@@ -6,6 +6,8 @@ import { TeacherComponent } from './teacher/teacher.component';
 import { TeacherDatailComponent } from './teacher-datail/teacher-datail.component';
 import { TeacherNewTopicComponent } from './teacher-new-topic/teacher-new-topic.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { SettingComponent } from './setting/setting.component';
+import { WishlistComponent } from './wishlist/wishlist.component';
 
 
 const routes: Routes = [
@@ -30,6 +32,14 @@ const routes: Routes = [
   {
     path: 'browse',
     component: BrowseComponent
+  },
+  {
+    path: 'settings',
+    component: SettingComponent
+  },
+  {
+    path: 'wishlist',
+    component: WishlistComponent
   },
   {
     path: '**',

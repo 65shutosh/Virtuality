@@ -9,10 +9,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item" style="margin-left: 20px;">
-          <a class="white-color" class="nav-link" routerLink="/browse">Topics</a>
+          <a class="white-color"  routerLink="/browse">Topics</a>
         </li>
         <li class="nav-item" style="margin-left: 10px;">
-          <a class="nav-link" routerLink="/teacher">Teach on Virtuality</a>
+          <a class="white-color" routerLink="/teacher">Teach on Virtuality</a>
         </li>
 
 
@@ -20,13 +20,13 @@
       <div *ngIf="loggedIn()">
         <ul class="navbar-nav">
           <li style="margin-left:10px" class="nav-item dropdown" dropdown>
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false" dropdownToggle>
               Welcome {{authService.decodeToken().unique_name | titlecase}}
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown" *dropdownMenu>
-              <a class="dropdown-item" href="#"> <i class="fa fa-cog"></i> Settings</a>
-              <a class="dropdown-item" href="#"><i class="fa fa-heart"></i> Wishlist</a>
+              <a class="dropdown-item" routerLink="/settings"> <i class="fa fa-cog"></i> Settings</a>
+              <a class="dropdown-item" routerLink="/wishlist"><i class="fa fa-heart"></i> Wishlist</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" (click)="logOut()"><i class="fa fa-sign-out" aria-hidden="true"></i> Log-out</a>
             </div>
