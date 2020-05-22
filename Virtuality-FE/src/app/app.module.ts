@@ -17,6 +17,7 @@ import { TeacherNewTopicComponent } from './teacher-new-topic/teacher-new-topic.
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ErrorInterceptorProvider } from './_service/error.interceptor';
 import { AlertifyService } from './_service/alertify.service';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @NgModule({
    declarations: [
@@ -35,7 +36,8 @@ import { AlertifyService } from './_service/alertify.service';
       AppRoutingModule,
       FormsModule,
       HttpClientModule,
-      RouterModule
+      RouterModule,
+      BsDropdownModule.forRoot()
    ],
    providers: [
       AuthenticationService,

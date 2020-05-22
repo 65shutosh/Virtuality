@@ -2,14 +2,14 @@
   <div class="container-fluid">
     <!-- Required - Virtuality Logo -->
     <div class="navbar-header active">
-      <a class="white-color" navbar-brand routerLink="/home" > Virtuality </a>
+      <a class="white-color" navbar-brand routerLink="/home"> Virtuality </a>
     </div>
     <!-- only works when logged-in 
                 condition is required-->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="white-color" class="nav-link" routerLink="/browse" >Topics</a>
+          <a class="white-color" class="nav-link" routerLink="/browse">Topics</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/teacher">Teach on Virtuality</a>
@@ -17,17 +17,14 @@
 
 
       </ul>
-      <div *ngIf="loggedIn()"> 
+      <div *ngIf="loggedIn()">
         <ul class="navbar-nav">
-
-          <li style="margin-top:7px" class="nav-item">
-            <!-- welcome user --> welcome User</li>
-          <li style="margin-left:10px" class="nav-item dropdown">
+          <li style="margin-left:10px" class="nav-item dropdown" dropdown>
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
-              Profile
+              aria-haspopup="true" aria-expanded="false" dropdownToggle>
+              welcome {{authService.decodeToken().unique_name | titlecase}}
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown" *dropdownMenu>
               <a class="dropdown-item" href="#">settings</a>
               <a class="dropdown-item" href="#">purchaged history</a>
               <div class="dropdown-divider"></div>
@@ -35,7 +32,7 @@
             </div>
           </li>
           <li class="nav-item">
-            <button (click)="logOut()" >logout</button>
+            <button (click)="logOut()">logout</button>
           </li>
         </ul>
       </div>
@@ -52,8 +49,8 @@
   </div>
 </nav>
 <div *ngIf="!loggedIn()">
-<app-register></app-register>
+  <app-register></app-register>
 </div>
 <div *ngIf="loggedIn()">
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>
