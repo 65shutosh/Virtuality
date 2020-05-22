@@ -1,0 +1,59 @@
+<nav class="navbar navbar-expand-sm  bg-color">
+  <div class="container-fluid">
+    <!-- Required - Virtuality Logo -->
+    <div class="navbar-header active">
+      <a class="white-color" navbar-brand routerLink="/home" > Virtuality </a>
+    </div>
+    <!-- only works when logged-in 
+                condition is required-->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="white-color" class="nav-link" routerLink="/browse" >Topics</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/teacher">Teach on Virtuality</a>
+        </li>
+
+
+      </ul>
+      <div *ngIf="loggedIn()"> 
+        <ul class="navbar-nav">
+
+          <li style="margin-top:7px" class="nav-item">
+            <!-- welcome user --> welcome User</li>
+          <li style="margin-left:10px" class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Profile
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">settings</a>
+              <a class="dropdown-item" href="#">purchaged history</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button (click)="logOut()" >logout</button>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="!loggedIn()">
+        <form #loginForm="ngForm" class="form-inline my-2 my-lg-0" (ngSubmit)="login()">
+          <input class="form-control mr-sm-2" type="text" placeholder="Username" name="username" required
+            [(ngModel)]="loginModule.username">
+          <input class="form-control mr-sm-2" type="password" placeholder="password" name="password" required
+            [(ngModel)]="loginModule.password">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</nav>
+<div *ngIf="!loggedIn()">
+<app-register></app-register>
+</div>
+<div *ngIf="loggedIn()">
+<router-outlet></router-outlet>
+</div>

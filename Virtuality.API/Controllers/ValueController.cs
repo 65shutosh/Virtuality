@@ -32,20 +32,20 @@ namespace Virtuality.API.Controllers
         //it just means design the code where it doesn’t cause a resource contention.
 
         //By default these codes are Synchronous
-        [HttpGet]
-        public async Task<IActionResult> GetValues()
-        {
-            var values = await _dataContext.Values.ToListAsync();
-            return Ok(values);
-        }
+        // [HttpGet]
+        // public async Task<IActionResult> GetValues()
+        // {
+        //     var values = await _dataContext.Values.ToListAsync();
+        //     return Ok(values);
+        // }
 
-        [AllowAnonymous]
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetValue(int id)
-        {
-            var value = await _dataContext.Values.FirstOrDefaultAsync(x => x.Id == id);
-            return Ok(value);
-        }
+        // [AllowAnonymous]
+        // [HttpGet("{id}")]
+        // public async Task<IActionResult> GetValue(int id)
+        // {
+        //     var value = await _dataContext.Values.FirstOrDefaultAsync(x => x.Id == id);
+        //     return Ok(value);
+        // }
 
 
         [HttpGet("Ashutosh/{id}")]

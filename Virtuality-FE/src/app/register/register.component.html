@@ -1,0 +1,52 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+        
+            <h1 style="margin-top:50px; margin-left: 50px;"> Welcome to VIRTUALITY-</h1>
+            <h5 style="margin-top:20px; margin-left: 80px;"> What's new here - </h5>
+            <h2 style="margin-top:20px; margin-left: 80px;"> you pay for the topics you learn not the subject</h2>
+            <h5 style="margin-top:20px; margin-left: 80px;"> For Whom - </h5>
+            <h6 style="margin-top:20px; margin-left: 80px;"> Someone who can learn or teach or both</h6>
+            <h6 style="margin-top:20px; margin-left: 80px;"> yes literally anybody</h6>
+            <h3 style="margin-top:20px; margin-left: 80px;"> Note - Some can teach a topic better than a Suject</h3>
+        </div>
+        <div class="col">
+            <div class="card bg-light">
+                <article class="card-body mx-auto" style="max-width: 400px;">
+                    <h4 class="card-title mt-3 text-center">Create Account</h4>
+
+
+                    <form #registrationForm='ngForm' (ngSubmit)="register(registrationForm)">
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                            </div>
+                            <input name="username" class="form-control" placeholder="Username" type="text" required [(ngModel)] ="registrationModel.username">
+                        </div> <!-- form-group// -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                            </div>
+                            <input name="email" class="form-control" placeholder="Email address" type="email" required [(ngModel)] ="registrationModel.email">
+                        </div> <!-- form-group// -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                            </div>
+                            <input name="password" class="form-control" placeholder="Create password" type="password" required [(ngModel)] ="registrationModel.password">
+                        </div> <!-- form-group// -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                            </div>
+                            <input name="rpassword" class="form-control" placeholder="Repeat password" type="password" required [(ngModel)] ="registrationModel.rpassword">
+                        </div> <!-- form-group// -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block"> Create Account </button>
+                        </div> <!-- form-group// -->
+                    </form>
+                </article>
+            </div> <!-- card.// -->
+        </div>
+    </div>
+</div>
