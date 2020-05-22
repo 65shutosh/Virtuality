@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from './_service/Authentication.service';
+import { AlertifyService } from './_service/alertify.service';
 
 @Component({
   selector: 'app-root',
@@ -13,19 +14,19 @@ export class AppComponent implements OnInit {
     password: ''
   };
 
-  constructor(private authService: AuthenticationService) { }
+  constructor(private authService: AuthenticationService , private alertify: AlertifyService) { }
   ngOnInit(): void {
   }
 
   login() {
     this.authService.login(this.loginModule).subscribe(
       res => {
-        console.log('loggin successfull');
-        console.log(res);
+        this.alertify.success('loggin successfull');
+        // console.log(res);
       },
       err => {
-        console.log('loggin unsuccessfull');
-        console.log(err);
+        this.alertify.error('loggin unsuccessfull');
+        // console.log(err);
       }
     );
   }
@@ -37,7 +38,8 @@ export class AppComponent implements OnInit {
 
   logOut() {
     localStorage.removeItem('token');
-    console.log('log-out successfull');
+    this.alertify.message('logged out');
+    // console.log('log-out successfull');
   }
 
 }

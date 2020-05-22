@@ -7,6 +7,7 @@ namespace Virtuality.API.Dtos
         [Required]
         public string Username { get; set; }
 
+        
         [Required]
          public string email { get; set; }
 

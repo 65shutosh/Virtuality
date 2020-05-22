@@ -1,18 +1,18 @@
 <nav class="navbar navbar-expand-sm  bg-color">
   <div class="container-fluid">
     <!-- Required - Virtuality Logo -->
-    <div class="navbar-header">
-      <span class="white-color" navbar-brand > Virtuality </span>
+    <div class="navbar-header active">
+      <a class="white-color" navbar-brand routerLink="/home" > Virtuality </a>
     </div>
     <!-- only works when logged-in 
                 condition is required-->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="white-color" class="nav-link" href="#" >Courses</a>
+          <a class="white-color" class="nav-link" routerLink="/browse" >Topics</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Teach on Virtuality</a>
+          <a class="nav-link" routerLink="/teacher">Teach on Virtuality</a>
         </li>
 
 
@@ -53,4 +53,7 @@
 </nav>
 <div *ngIf="!loggedIn()">
 <app-register></app-register>
+</div>
+<div *ngIf="loggedIn()">
+<router-outlet></router-outlet>
 </div>
