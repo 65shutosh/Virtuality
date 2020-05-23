@@ -11,7 +11,7 @@
         <li class="nav-item" style="margin-left: 20px;">
           <a class="white-color"  routerLink="/browse">Topics</a>
         </li>
-        <li class="nav-item" style="margin-left: 10px;">
+        <li class="nav-item" style="margin-left: 20px;">
           <a class="white-color" routerLink="/teacher">Teach on Virtuality</a>
         </li>
 
@@ -22,7 +22,8 @@
           <li style="margin-left:10px" class="nav-item dropdown" dropdown>
             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false" dropdownToggle>
-              Welcome {{authService.decodeToken().unique_name | titlecase}}
+              <i class="fa fa-user"></i>
+               Welcome {{authService.decodeToken().unique_name | titlecase}}
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown" *dropdownMenu>
               <a class="dropdown-item" routerLink="/settings"> <i class="fa fa-cog"></i> Settings</a>
