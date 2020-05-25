@@ -11,5 +11,12 @@ namespace Virtuality.API.Data
 
 
         public DbSet<User> Users { get; set; }
+    
+        public DbSet<Teacher> Teachers { get; set; }
+
+        public DbSet<Account> Accounts { get; set; }
+
+        public DbSet<Course> Courses { get; set; }
     }
+
 }
