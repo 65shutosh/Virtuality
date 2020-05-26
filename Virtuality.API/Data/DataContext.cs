@@ -17,6 +17,10 @@ namespace Virtuality.API.Data
         public DbSet<Account> Accounts { get; set; }
 
         public DbSet<Course> Courses { get; set; }
+
+        public DbSet<Purchase> Purchases { get; set; }
+
+        public DbSet<Feedback> feedbacks { get; set; }
     }
 
 }
