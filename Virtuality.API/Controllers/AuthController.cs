@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 using Virtuality.API.Data;
 using Virtuality.API.Dtos;
 using Virtuality.API.Models;
@@ -12,6 +13,7 @@ using System;
 
 namespace Virtuality.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class AuthController : ControllerBase
@@ -24,7 +26,7 @@ namespace Virtuality.API.Controllers
             _authRepository = authRepository;
             _configuration = configuration;
         }
-
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register(/*[FormBody]*/UserForRegisterDto userForRegisterDto)
         {
@@ -42,7 +44,7 @@ namespace Virtuality.API.Controllers
             var userToCreate = new User
             {
                 Username = userForRegisterDto.Username,
-                 email = userForRegisterDto.email
+                email = userForRegisterDto.email
             };
 
             var createdUser = await _authRepository.Register(userToCreate, userForRegisterDto.Password);
@@ -51,7 +53,9 @@ namespace Virtuality.API.Controllers
             return StatusCode(201);
         }
 
+
         // Login and Token Generation
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
@@ -64,8 +68,9 @@ namespace Virtuality.API.Controllers
 
             var claims = new[]{
             new Claim(ClaimTypes.NameIdentifier , userFromRepo.Id.ToString()),
-            new Claim(ClaimTypes.Name , userFromRepo.Username)
-        };
+            new Claim(ClaimTypes.Name , userFromRepo.Username),
+            new Claim(ClaimTypes.Role , await _authRepository.IsTeacher(userFromRepo.Id) ? "Teacher" : "" )
+            };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
                 _configuration.GetSection("AppSettings:Token").Value));
@@ -87,6 +92,20 @@ namespace Virtuality.API.Controllers
             {
                 token = tokenHandler.WriteToken(token)
             });
+        }
+
+        [HttpPost("teacher/register")]
+        public async Task<IActionResult> RegisterAsTeacher(Teacher teacher){
+            if (! (await _authRepository.IsTeacher(teacher.UserId))){
+            await _authRepository.RegisterAsTeacher(teacher);
+            return StatusCode(201);
+            }
+            return BadRequest("User is already registered as a Teacher");
+        }
+
+        [HttpGet("teacher/{userId}")]
+        public async Task<IActionResult> IsTeacher(int userId){
+         return Ok(await _authRepository.IsTeacher(userId));
         }
     }
 }
