@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '../_service/Authentication.service';
 
 @Component({
   selector: 'app-teacher',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TeacherComponent implements OnInit {
 
-  constructor() { }
+
+  isTeacher: boolean ;
+  constructor(private authenticationService: AuthenticationService) { }
+
 
   ngOnInit() {
+    this.isTeacher =  this.authenticationService.isTeacher();
   }
 
 }
