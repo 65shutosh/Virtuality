@@ -13,6 +13,9 @@ namespace Virtuality.API.Models
         public string Subject { get; set; }
 
         public DateTime AddedOn { get; set; }
+ 
+        // covered basic, Intermediate, Complete
+        public string level { get; set;}
 
         public double Rating { get; set; }
 
@@ -21,5 +24,6 @@ namespace Virtuality.API.Models
         public Teacher Teacher { get; set; }
 
         public int TeacherId { get; set; }
-    }
+
+        }
 }
