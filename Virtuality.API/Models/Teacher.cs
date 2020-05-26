@@ -9,11 +9,13 @@ namespace Virtuality.API.Models
 
         public string ContactNumber { get; set; }
 
-        public string address { get; set; }
+        public string Address { get; set; }
 
         public int zip { get; set; }
 
-        public Account Acoount { get; set; }
+        public Account Account { get; set; }
+
+        public int AccountId { get; set; }
 
         public User User { get; set; }       
 
