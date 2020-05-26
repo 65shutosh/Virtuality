@@ -12,7 +12,7 @@ export class AuthenticationService {
 
   private BASE_URL = 'http://localhost:5000/Auth/';
   jwtHelper = new JwtHelperService();
-  decodedToken: any;
+ // decodedToken: any;
 
   constructor(private http: HttpClient) { }
 
@@ -49,6 +49,12 @@ export class AuthenticationService {
       return !this.jwtHelper.isTokenExpired(localStorage.getItem('token'));
   }
 
+  isTeacher() {
+     if ( this.decodeToken().role === 'Teacher') {
+      return true;
+     }
+     return false;
+  }
   // user teacher-details registration
 
 }
