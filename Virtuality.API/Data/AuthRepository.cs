@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Virtuality.API.Dtos;
 using Virtuality.API.Models;
 
 namespace Virtuality.API.Data
@@ -80,5 +81,22 @@ namespace Virtuality.API.Data
             return false;
 
         }
+
+        // to check if an existing user is also a teacher
+        public async Task<bool> IsTeacher(int id)
+        {
+            if (await _context.Users.AnyAsync(x => x.Id == id)) return true;
+
+            return false;
+        }
+
+        public async Task<bool> RegisterAsTeacher(Teacher teacher)
+        {
+            
+            await _context.Teachers.AddAsync(teacher);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
     }
 }
