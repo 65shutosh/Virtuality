@@ -21,6 +21,8 @@ namespace Virtuality.API.Data
         public DbSet<Purchase> Purchases { get; set; }
 
         public DbSet<Feedback> feedbacks { get; set; }
+
+        public DbSet<Video> Videos { get; set; }
     }
 
 }
