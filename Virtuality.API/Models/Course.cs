@@ -15,15 +15,17 @@ namespace Virtuality.API.Models
         public DateTime AddedOn { get; set; }
  
         // covered basic, Intermediate, Complete
-        public string level { get; set;}
+        public string Level { get; set;}
 
         public double Rating { get; set; }
 
         public bool Varified { get; set; }
 
+        public string Thumbnail { get; set; }
+
         public Teacher Teacher { get; set; }
 
         public int TeacherId { get; set; }
-
+        
         }
 }
