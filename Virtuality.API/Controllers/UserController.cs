@@ -10,7 +10,7 @@ namespace Virtuality.API.Controllers
     {
         public UserController()
         {
-
+            
         }
 
     }
