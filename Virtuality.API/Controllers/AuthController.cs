@@ -95,17 +95,20 @@ namespace Virtuality.API.Controllers
         }
 
         [HttpPost("teacher/register")]
-        public async Task<IActionResult> RegisterAsTeacher(Teacher teacher){
-            if (! (await _authRepository.IsTeacher(teacher.UserId))){
-            await _authRepository.RegisterAsTeacher(teacher);
-            return StatusCode(201);
+        public async Task<IActionResult> RegisterAsTeacher(Teacher teacher)
+        {
+            if (!(await _authRepository.IsTeacher(teacher.UserId)))
+            {
+                await _authRepository.RegisterAsTeacher(teacher);
+                return StatusCode(201);
             }
             return BadRequest("User is already registered as a Teacher");
         }
 
         [HttpGet("teacher/{userId}")]
-        public async Task<IActionResult> IsTeacher(int userId){
-         return Ok(await _authRepository.IsTeacher(userId));
+        public async Task<IActionResult> IsTeacher(int userId)
+        {
+            return Ok(await _authRepository.IsTeacher(userId));
         }
     }
 }
