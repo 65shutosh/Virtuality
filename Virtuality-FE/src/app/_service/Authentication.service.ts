@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -10,9 +10,15 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthenticationService {
 
 
+  httpOptions = {
+    headers: new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token')
+    })
+  };
+
   private BASE_URL = 'http://localhost:5000/Auth/';
   jwtHelper = new JwtHelperService();
- // decodedToken: any;
+  // decodedToken: any;
 
   constructor(private http: HttpClient) { }
 
@@ -46,15 +52,18 @@ export class AuthenticationService {
 
 
   loggedIn() {
-      return !this.jwtHelper.isTokenExpired(localStorage.getItem('token'));
+    return !this.jwtHelper.isTokenExpired(localStorage.getItem('token'));
   }
 
   isTeacher() {
-     if ( this.decodeToken().role === 'Teacher') {
+    if (this.decodeToken().role === 'Teacher') {
       return true;
-     }
-     return false;
+    }
+    return false;
   }
-  // user teacher-details registration
 
+  // user teacher-details registration
+  teacherRegistration(model: any) {
+    return this.http.post(this.BASE_URL + 'teacher/register', model, this.httpOptions);
+  }
 }

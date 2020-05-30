@@ -85,7 +85,7 @@ namespace Virtuality.API.Data
         // to check if an existing user is also a teacher
         public async Task<bool> IsTeacher(int id)
         {
-            if (await _context.Users.AnyAsync(x => x.Id == id)) return true;
+            if (await _context.Teachers.AnyAsync(x => x.UserId == id)) return true;
 
             return false;
         }

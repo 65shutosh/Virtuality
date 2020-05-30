@@ -37,7 +37,9 @@ namespace Virtuality.API
             //# Adding DataBase as SQLite and configuring its connection
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddControllers();
+            //Install Microsoft.AspNetCore.Mvc.NewtonsoftJson using Nuget
+            //add AddNewtonsoftJson() to service.AddControllers()
+            services.AddControllers().AddNewtonsoftJson();
             //# Adding  CORS - Cross Origin Resource sharing
             services.AddCors();
 
