@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Virtuality.API.Data;
 
 namespace Virtuality.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200526044407_creatingTables")]
+    partial class creatingTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,9 +50,6 @@ namespace Virtuality.API.Migrations
                     b.Property<DateTime>("AddedOn")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Level")
-                        .HasColumnType("TEXT");
-
                     b.Property<double>("Rating")
                         .HasColumnType("REAL");
 
@@ -60,9 +59,6 @@ namespace Virtuality.API.Migrations
                     b.Property<int>("TeacherId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Thumbnail")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
@@ -71,6 +67,9 @@ namespace Virtuality.API.Migrations
 
                     b.Property<bool>("Varified")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("level")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -148,9 +147,6 @@ namespace Virtuality.API.Migrations
                     b.Property<int>("AccountId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Address")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("ContactNumber")
                         .HasColumnType("TEXT");
 
@@ -159,6 +155,9 @@ namespace Virtuality.API.Migrations
 
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("address")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("zip")
                         .HasColumnType("INTEGER");
@@ -193,31 +192,6 @@ namespace Virtuality.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Virtuality.API.Models.Video", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SequenceNumber")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("VideoName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("VideoPath")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
-
-                    b.ToTable("Videos");
                 });
 
             modelBuilder.Entity("Virtuality.API.Models.Course", b =>
@@ -261,7 +235,7 @@ namespace Virtuality.API.Migrations
 
             modelBuilder.Entity("Virtuality.API.Models.Teacher", b =>
                 {
-                    b.HasOne("Virtuality.API.Models.Account", "Account")
+                    b.HasOne("Virtuality.API.Models.Account", "Acoount")
                         .WithMany()
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -270,15 +244,6 @@ namespace Virtuality.API.Migrations
                     b.HasOne("Virtuality.API.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Virtuality.API.Models.Video", b =>
-                {
-                    b.HasOne("Virtuality.API.Models.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

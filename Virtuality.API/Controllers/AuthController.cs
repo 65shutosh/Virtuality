@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 using Virtuality.API.Data;
 using Virtuality.API.Dtos;
 using Virtuality.API.Models;
@@ -12,19 +13,22 @@ using System;
 
 namespace Virtuality.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthRepository _authRepository;
         private readonly IConfiguration _configuration;
+        private readonly IUserRepository _userRepository;
 
-        public AuthController(IAuthRepository authRepository, IConfiguration configuration)
+        public AuthController(IAuthRepository authRepository, IUserRepository userRepository, IConfiguration configuration)
         {
+            _userRepository = userRepository;
             _authRepository = authRepository;
             _configuration = configuration;
         }
-
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register(/*[FormBody]*/UserForRegisterDto userForRegisterDto)
         {
@@ -42,7 +46,7 @@ namespace Virtuality.API.Controllers
             var userToCreate = new User
             {
                 Username = userForRegisterDto.Username,
-                 email = userForRegisterDto.email
+                email = userForRegisterDto.email
             };
 
             var createdUser = await _authRepository.Register(userToCreate, userForRegisterDto.Password);
@@ -51,7 +55,9 @@ namespace Virtuality.API.Controllers
             return StatusCode(201);
         }
 
+
         // Login and Token Generation
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
@@ -62,10 +68,41 @@ namespace Virtuality.API.Controllers
             if (userFromRepo == null)
                 return Unauthorized();
 
+            // var claims = new[]{
+            // new Claim(ClaimTypes.NameIdentifier , userFromRepo.Id.ToString()),
+            // new Claim(ClaimTypes.Name , userFromRepo.Username),
+            // new Claim(ClaimTypes.Role , await _authRepository.IsTeacher(userFromRepo.Id) ? "Teacher" : "" )
+            // };
+
+            // var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+            //     _configuration.GetSection("AppSettings:Token").Value));
+
+            // var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            // var tokenDescriptor = new SecurityTokenDescriptor
+            // {
+            //     Subject = new ClaimsIdentity(claims),
+            //     Expires = DateTime.Now.AddDays(1),
+            //     SigningCredentials = creds
+            // };
+
+            // var tokenHandler = new JwtSecurityTokenHandler();
+
+            // var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return Ok(new
+            {
+                token = CreateToken(userFromRepo).Result
+            });
+        }
+
+        private async Task<string> CreateToken(User userFromRepo)
+        {
             var claims = new[]{
             new Claim(ClaimTypes.NameIdentifier , userFromRepo.Id.ToString()),
-            new Claim(ClaimTypes.Name , userFromRepo.Username)
-        };
+            new Claim(ClaimTypes.Name , userFromRepo.Username),
+            new Claim(ClaimTypes.Role , await _authRepository.IsTeacher(userFromRepo.Id) ? "Teacher" : "" )
+            };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
                 _configuration.GetSection("AppSettings:Token").Value));
@@ -78,15 +115,33 @@ namespace Virtuality.API.Controllers
                 Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = creds
             };
-
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(new
+            return tokenHandler.WriteToken(token);
+        }
+    //    [AllowAnonymous]
+        [HttpPost("teacher/register")]
+        public async Task<IActionResult> RegisterAsTeacher(Teacher teacher)
+        {
+            if (!(await _authRepository.IsTeacher(teacher.UserId)))
             {
-                token = tokenHandler.WriteToken(token)
-            });
+                // var token = ' ';
+                await _authRepository.RegisterAsTeacher(teacher);
+                User userFromRepo = _userRepository.GetUser(teacher.UserId).Result;
+                return Ok(new { token = CreateToken(userFromRepo).Result });
+                // return StatusCode(201);
+            }
+            return BadRequest("User is already registered as a Teacher");
+        }
+
+
+
+        [HttpGet("teacher/{userId}")]
+        public async Task<IActionResult> IsTeacher(int userId)
+        {
+            return Ok(await _authRepository.IsTeacher(userId));
         }
     }
 }

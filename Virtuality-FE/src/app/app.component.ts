@@ -13,16 +13,23 @@ export class AppComponent implements OnInit {
     username: '',
     password: ''
   };
+  userName: any;
 
-  constructor(private authService: AuthenticationService , private alertify: AlertifyService) { }
+  constructor(public authService: AuthenticationService, private alertify: AlertifyService) { }
   ngOnInit(): void {
+    // console.log(this.authService.loggedIn());
+    // if (this.authService.loggedIn()) {
+    //   this.userName = this.authService.decodeToken().unique_name;
+    // }
+    //  console.log(this.authService.decodeToken());
+    // console.log('after refresh -' + this.userName);
   }
 
   login() {
     this.authService.login(this.loginModule).subscribe(
       res => {
-        this.alertify.success('loggin successfull');
         // console.log(res);
+        this.alertify.success('loggin successfull');
       },
       err => {
         this.alertify.error('loggin unsuccessfull');
@@ -32,8 +39,10 @@ export class AppComponent implements OnInit {
   }
 
   loggedIn() {
-    const token = localStorage.getItem('token');
-    return !!token;
+    // const token = localStorage.getItem('token');
+    // console.log(this.authService.loggedIn());
+    // return !!token;
+    return this.authService.loggedIn();
   }
 
   logOut() {

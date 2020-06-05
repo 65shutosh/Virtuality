@@ -17,6 +17,15 @@ import { TeacherNewTopicComponent } from './teacher-new-topic/teacher-new-topic.
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ErrorInterceptorProvider } from './_service/error.interceptor';
 import { AlertifyService } from './_service/alertify.service';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { SettingComponent } from './setting/setting.component';
+import { WishlistComponent } from './wishlist/wishlist.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+   return localStorage.getItem('token');
+}
 
 @NgModule({
    declarations: [
@@ -28,14 +37,29 @@ import { AlertifyService } from './_service/alertify.service';
       TeacherComponent,
       TeacherDatailComponent,
       TeacherNewTopicComponent,
-      NotFoundComponent
+      NotFoundComponent,
+      SettingComponent,
+      WishlistComponent
    ],
    imports: [
       BrowserModule,
       AppRoutingModule,
       FormsModule,
       HttpClientModule,
-      RouterModule
+      RouterModule,
+      BrowserAnimationsModule,
+      BsDropdownModule.forRoot(),
+      JwtModule.forRoot({
+         config: {
+            // tslint:disable-next-line:object-literal-shorthand
+            tokenGetter: tokenGetter,
+            whitelistedDomains: ['localhost:5000'],
+            blacklistedRoutes: [
+               'localhost:5000/Auth/login',
+               'localhost:5000/Auth/register'
+            ]
+         }
+      })
    ],
    providers: [
       AuthenticationService,

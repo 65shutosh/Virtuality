@@ -1,3 +1,153 @@
-<p>
-  teacher-datail works!
-</p>
+
+<div class="container-fluid">
+  <h4 class="text-center mt-5"> To teach you must first register as a teacher</h4>
+  <div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+       <form #teacherRegFrom='ngForm' (ngSubmit)="teacherRegFrom.form.valid && register(teacherRegFrom)">
+                        
+                        
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-user mr-3"></i>   Name :</span>
+                            </div>
+                            <input name="name" class="form-control" placeholder="name" type="text"
+                                [(ngModel)]="teacherRegModel.name"
+                                #name = "ngModel"
+                                [ngClass] = "{ 'is-invalid': teacherRegFrom.submitted && name.invalid }"
+                                required >
+                        </div> <!-- showing error to user// -->
+                        <div *ngIf="teacherRegFrom.submitted && name.invalid" class="warning form-group">
+                            <div *ngIf="name.errors?.required"> name is required </div>
+                        </div>
+
+
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-address-book mr-3" ></i> Contact : </span>
+                            </div>
+                            <input name="contactNumber" class="form-control" placeholder="contactNumber" type="contactNumber"
+                                [(ngModel)]="teacherRegModel.contactNumber"
+                                #contactNumber = "ngModel"
+                                [ngClass] = "{'is-invalid': teacherRegFrom.submitted && contactNumber.invalid}"
+                                required
+                                >
+                        </div>
+                        <div *ngIf="teacherRegFrom.submitted && contactNumber.invalid" class = "warning form-group">
+                            <div *ngIf="contactNumber.errors?.required"> contact number is required </div>
+                        </div> 
+                        
+                        
+                        
+                        <!-- form-group// -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-map-marker mr-3"></i> Zip : </span>
+                            </div>
+                            <input name="zip" class="form-control" placeholder="area zip code" type="text"
+                             [(ngModel)]="teacherRegModel.zip"
+                             #zip = "ngModel"
+                             [ngClass] = "{'is-invalid': teacherRegFrom.submitted && zip.invalid}"
+                             required minlength="6"
+                             maxlength="6"
+                             >
+                        </div>
+                        <div *ngIf="teacherRegFrom.submitted && zip.invalid " class = "warning form-group">
+                            <div *ngIf="zip.errors?.required"> zip is required </div>
+                            <div *ngIf="zip.errors?.minlength"> zip must be of 6 characters </div> 
+                            <div *ngIf="zip.errors?.maxlength"> zip must be of 6 characters </div>
+                        </div>
+                        
+                        
+                        
+                        <!-- form-group// -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-location-arrow mr-3"></i> Address :</span>
+                            </div>
+                            <input name="address" class="form-control" placeholder="address" type="text"
+                                 [(ngModel)]="teacherRegModel.address"
+                                 #address = "ngModel"
+                                 [ngClass] = "{'is-invalid': teacherRegFrom.submitted && address.invalid}"
+                                 required >
+                        </div> 
+
+                        <div *ngIf="teacherRegFrom.submitted && address.invalid" class="form-group warning">
+                            <div *ngIf="address.errors?.required">address is required</div>
+                        </div>
+                       <div> Bank Details :</div>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-university mr-3"></i> Bank Name :</span>
+                            </div>
+                            <input name="bank" class="form-control" placeholder="Bank Name" type="text"
+                                 [(ngModel)]="teacherRegModel.account.bank"
+                                 #bank = "ngModel"
+                                 [ngClass] = "{'is-invalid': teacherRegFrom.submitted && bank.invalid}"
+                                 required >
+                        </div> 
+
+                        <div *ngIf="teacherRegFrom.submitted && bank.invalid" class="form-group warning">
+                            <div *ngIf="bank.errors?.required">Bank name is required</div>
+                        </div>
+                        
+
+                         <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-user-circle mr-3"></i> Account Holder's Name :</span>
+                            </div>
+                            <input name="accountHolderName" class="form-control" placeholder="account holder's name" type="text"
+                                 [(ngModel)]="teacherRegModel.account.accountHolderName"
+                                 #accountHolderName = "ngModel"
+                                 [ngClass] = "{'is-invalid': teacherRegFrom.submitted && accountHolderName.invalid}"
+                                 required >
+                        </div> 
+
+                        <div *ngIf="teacherRegFrom.submitted && accountHolderName.invalid" class="form-group warning">
+                            <div *ngIf="accountHolderName.errors?.required">account holder's Name is required</div>
+                        </div>
+
+                        <div class="form-group input-group">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"> <i class="fa fa-info mr-3"></i> Account number :</span>
+                          </div>
+                          <input name="accountNumber" class="form-control" placeholder="account number" type="text"
+                               [(ngModel)]="teacherRegModel.account.accountNumber"
+                               #accountNumber = "ngModel"
+                               [ngClass] = "{'is-invalid': teacherRegFrom.submitted && accountNumber.invalid}"
+                               required >
+                      </div> 
+
+                      <div *ngIf="teacherRegFrom.submitted && accountNumber.invalid" class="form-group warning">
+                          <div *ngIf="accountNumber.errors?.required">account number is required</div>
+                      </div>
+
+                         
+
+                         <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-info mr-3"></i> IFSC :</span>
+                            </div>
+                            <input name="IFSC" class="form-control" placeholder="IFSC" type="text"
+                                 [(ngModel)]="teacherRegModel.account.IFSC"
+                                 #IFSC = "ngModel"
+                                 [ngClass] = "{'is-invalid': teacherRegFrom.submitted && IFSC.invalid}"
+                                 required >
+                        </div> 
+
+                        <div *ngIf="teacherRegFrom.submitted && IFSC.invalid" class="form-group warning">
+                            <div *ngIf="IFSC.errors?.required">IFSC is required</div>
+                        </div>
+
+
+                        <!-- form-group// -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block"> Register </button>
+                        </div> <!-- form-group// -->
+                    </form>
+    </div>
+    <div class="col-sm-3"></div>
+  </div>
+
+
+</div>

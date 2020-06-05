@@ -26,12 +26,13 @@ export class RegisterComponent implements OnInit {
 
 
   register(myForm) {
+    if ((this.registrationModel.password).localeCompare(this.registrationModel.rpassword) === 0) {
     this.authService.register(this.registrationModel).subscribe(
       res => {
         console.log(res);
        // alert('registration successfull');
         this.alertify.success('registration successfull');
-        myForm.reset();
+        myForm.resetForm();
       },
       err => {
         // if (err.status === 400) {
@@ -41,6 +42,9 @@ export class RegisterComponent implements OnInit {
         this.alertify.error('registration unsuccessfull');
       }
     );
+    } else {
+      this.alertify.error(' registration is not processed as passwords do not match');
+    }
   }
 
 }

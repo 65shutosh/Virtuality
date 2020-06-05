@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Virtuality.API.Data;
 
 namespace Virtuality.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200530130021_updatedCourseAndAddedVideos")]
+    partial class updatedCourseAndAddedVideos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -208,9 +210,6 @@ namespace Virtuality.API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("VideoName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("VideoPath")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

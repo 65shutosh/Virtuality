@@ -7,22 +7,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Virtuality.API.Data;
-
-
+using System.Net.Http;
+using Virtuality.API.Helpers;
+using System.IO;
 
 namespace Virtuality.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class ValueController : ControllerBase
+    public class VideoController : ControllerBase
     {
         private readonly DataContext _dataContext;
-        public ValueController(DataContext dataContext)
+        public VideoController(DataContext dataContext)
         {
             _dataContext = dataContext;
-
         }
+
 
 
         //Synchronization is the way to design the thread-safe code where you can totally avoid the resource contention,
@@ -47,19 +48,46 @@ namespace Virtuality.API.Controllers
         //     return Ok(value);
         // }
 
-
-        [HttpGet("Ashutosh/{id}")]
-        public string Get(int id)
+        // Using PhysicalFileResult
+        [HttpGet("data/{filename}")]
+        public PhysicalFileResult Get(string filename)
         {
-            return "Ashutosh " + id;
+            // var video = new VideoStream(filename);
+            // var response =new HttpResponseMessage();
+            //response.Content = new HttpResponseMessa () 
+            var filePath = @"C:\video\" + filename + ".mp4";
+
+            return PhysicalFile(filePath, "application/octet-stream", enableRangeProcessing: true);
         }
 
+        // Using FileStramResult
+        // [HttpGet("datav/{filename}")]
+        // public FileStreamResult GetVideo(string filename)
+        // {
+        //     var _MIMETYPE = "video/mp4" ;
+        //     FileStreamResult fileStreamResult = null ;
+        //     var filePath = @"C:\video\" + filename + ".mp4";
+        //     try
+        //     {
+        //     using ( FileStream fileStream = System.IO.File.Open(filePath , FileMode.Open , FileAccess.Read)){
+        //         fileStreamResult = new FileStreamResult(fileStream , _MIMETYPE);
+        //     }    
+        //     }
+        //     catch (System.Exception)
+        //     {
+        //         Console.WriteLine("Exception In GetVideo methood of VideoController");
+        //     }
+
+        // return fileStreamResult;
+        // }
         // Syntax to make sure they are not forgotten
 
         //    [HttpPost("{id}")]
         //    public IActionResult Post([FromBody] Object data){
         //        return Ok(data);
         //    }
+
+
 
 
 
