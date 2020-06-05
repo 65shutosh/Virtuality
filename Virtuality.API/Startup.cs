@@ -48,6 +48,7 @@ namespace Virtuality.API
             //singleTransient - for every call new object gets created and these are light weight objects
             //AddScoped - for one HTTP request there is only one instance gets created
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             //Authentication middleware
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

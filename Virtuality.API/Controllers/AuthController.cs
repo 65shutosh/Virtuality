@@ -20,9 +20,11 @@ namespace Virtuality.API.Controllers
     {
         private readonly IAuthRepository _authRepository;
         private readonly IConfiguration _configuration;
+        private readonly IUserRepository _userRepository;
 
-        public AuthController(IAuthRepository authRepository, IConfiguration configuration)
+        public AuthController(IAuthRepository authRepository, IUserRepository userRepository, IConfiguration configuration)
         {
+            _userRepository = userRepository;
             _authRepository = authRepository;
             _configuration = configuration;
         }
@@ -66,6 +68,36 @@ namespace Virtuality.API.Controllers
             if (userFromRepo == null)
                 return Unauthorized();
 
+            // var claims = new[]{
+            // new Claim(ClaimTypes.NameIdentifier , userFromRepo.Id.ToString()),
+            // new Claim(ClaimTypes.Name , userFromRepo.Username),
+            // new Claim(ClaimTypes.Role , await _authRepository.IsTeacher(userFromRepo.Id) ? "Teacher" : "" )
+            // };
+
+            // var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+            //     _configuration.GetSection("AppSettings:Token").Value));
+
+            // var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            // var tokenDescriptor = new SecurityTokenDescriptor
+            // {
+            //     Subject = new ClaimsIdentity(claims),
+            //     Expires = DateTime.Now.AddDays(1),
+            //     SigningCredentials = creds
+            // };
+
+            // var tokenHandler = new JwtSecurityTokenHandler();
+
+            // var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return Ok(new
+            {
+                token = CreateToken(userFromRepo).Result
+            });
+        }
+
+        private async Task<string> CreateToken(User userFromRepo)
+        {
             var claims = new[]{
             new Claim(ClaimTypes.NameIdentifier , userFromRepo.Id.ToString()),
             new Claim(ClaimTypes.Name , userFromRepo.Username),
@@ -83,27 +115,28 @@ namespace Virtuality.API.Controllers
                 Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = creds
             };
-
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(new
-            {
-                token = tokenHandler.WriteToken(token)
-            });
+            return tokenHandler.WriteToken(token);
         }
-
+    //    [AllowAnonymous]
         [HttpPost("teacher/register")]
         public async Task<IActionResult> RegisterAsTeacher(Teacher teacher)
         {
             if (!(await _authRepository.IsTeacher(teacher.UserId)))
             {
+                // var token = ' ';
                 await _authRepository.RegisterAsTeacher(teacher);
-                return StatusCode(201);
+                User userFromRepo = _userRepository.GetUser(teacher.UserId).Result;
+                return Ok(new { token = CreateToken(userFromRepo).Result });
+                // return StatusCode(201);
             }
             return BadRequest("User is already registered as a Teacher");
         }
+
+
 
         [HttpGet("teacher/{userId}")]
         public async Task<IActionResult> IsTeacher(int userId)

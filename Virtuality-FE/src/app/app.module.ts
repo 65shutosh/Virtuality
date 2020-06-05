@@ -21,6 +21,11 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { SettingComponent } from './setting/setting.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+   return localStorage.getItem('token');
+}
 
 @NgModule({
    declarations: [
@@ -43,7 +48,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       HttpClientModule,
       RouterModule,
       BrowserAnimationsModule,
-      BsDropdownModule.forRoot()
+      BsDropdownModule.forRoot(),
+      JwtModule.forRoot({
+         config: {
+            // tslint:disable-next-line:object-literal-shorthand
+            tokenGetter: tokenGetter,
+            whitelistedDomains: ['localhost:5000'],
+            blacklistedRoutes: [
+               'localhost:5000/Auth/login',
+               'localhost:5000/Auth/register'
+            ]
+         }
+      })
    ],
    providers: [
       AuthenticationService,

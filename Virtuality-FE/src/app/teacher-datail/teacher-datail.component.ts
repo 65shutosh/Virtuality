@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../_service/Authentication.service';
 import { Teacher } from '../_models/Teacher';
+import { AlertifyService } from '../_service/alertify.service';
 
 @Component({
   selector: 'app-teacher-datail',
@@ -23,23 +24,24 @@ export class TeacherDatailComponent implements OnInit {
     userId: 0
   };
 
-  constructor(private authService: AuthenticationService) { }
+  constructor(private authService: AuthenticationService, private alertify: AlertifyService) { }
 
   ngOnInit() {
   }
 
-register( teacherFormData ) {
-  this.teacherRegModel.userId = this.authService.decodeToken().nameid;
-  this.authService.teacherRegistration(this.teacherRegModel).subscribe(
-    res => {
-      console.log('res');
-    //  console.log(res.status);
-    },
-    err => {
-      console.log('ERR');
-      console.log(err);
-    }
-  );
-}
+  register(teacherFormData) {
+    this.teacherRegModel.userId = this.authService.decodeToken().nameid;
+    this.authService.teacherRegistration(this.teacherRegModel).subscribe(
+      res => {
+        this.alertify.success('Teacher Registration SuccessFull');
+        teacherFormData.resetForm();
+        //  console.log(res.status);
+      },
+      err => {
+        this.alertify.error('Teacher Registation Unsuccessfull');
+        console.log(err);
+      }
+    );
+  }
 
 }

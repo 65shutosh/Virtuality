@@ -10,11 +10,11 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthenticationService {
 
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      Authorization: 'Bearer ' + localStorage.getItem('token')
-    })
-  };
+  // httpOptions = {
+  //   headers: new HttpHeaders({
+  //     Authorization: `Bearer ${localStorage.getItem('token')}`
+  //   })
+  // };
 
   private BASE_URL = 'http://localhost:5000/Auth/';
   jwtHelper = new JwtHelperService();
@@ -64,6 +64,20 @@ export class AuthenticationService {
 
   // user teacher-details registration
   teacherRegistration(model: any) {
-    return this.http.post(this.BASE_URL + 'teacher/register', model, this.httpOptions);
+    // const headers = new Headers();
+    // headers.append('Content-Type' , 'application/json');
+    // const token = localStorage.getItem('token');
+    // headers.append('Authorization', `Bearer ${token}`);
+    return this.http.post(this.BASE_URL + 'teacher/register', model)// this.httpOptions for JwtAuthentication
+    .pipe(
+      map((response: any) => {
+        const user = response;
+        if (user) {
+          localStorage.removeItem('token');
+          localStorage.setItem('token', user.token);
+        }
+      }
+      )
+    );
   }
 }

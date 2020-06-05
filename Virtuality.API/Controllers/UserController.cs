@@ -10,7 +10,9 @@ namespace Virtuality.API.Controllers
     {
         public UserController()
         {
-            
+          // Getting the user enrolled courses
+          // 
+          //  
         }
 
     }
